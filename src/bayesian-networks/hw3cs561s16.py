@@ -160,7 +160,7 @@ def getUtility(utilityNode, X):
         return utilityTable[X[dependencyNodes[0]]]
     elif (len(dependencyNodes) == 2):
         return utilityTable[X[dependencyNodes[0]]][X[dependencyNodes[1]]]
-    elif (len(dependencyNodes) == 2):
+    elif (len(dependencyNodes) == 3):
         return utilityTable[X[dependencyNodes[0]]][X[dependencyNodes[1]]][X[dependencyNodes[2]]]
 
 def calculateExpectedUtility(numeratorX, denominatorX, utilityDependencyNodes, utilityNode):
@@ -301,12 +301,12 @@ for i in range(0,len(queries)):
         if (getQueryType(queries[i]) == constants.PROBABILITY):
             numeratorX, denominatorX = getQueryVariableValueDict(argsAfterSplit)
             probabilityValue = calculateProbability(numeratorX, denominatorX)
-            #print "{0:.2f}".format(round(probabilityValue + 1e-8, 2))
-            printStringOntoFile("{0:.2f}".format(round(probabilityValue + 1e-8, 2)))
+            print "{0:.2f}".format(round(probabilityValue + 1e-8, 2))
+            #printStringOntoFile("{0:.2f}".format(round(probabilityValue + 1e-8, 2)))
         elif (getQueryType(queries[i]) == constants.MAX_EXPECTED_UTILITY):
             maxExpectedUtility = getMaxUtility(argsAfterSplit, utilityNode)
-            #print maxExpectedUtility
-            printStringOntoFile(maxExpectedUtility)
+            print maxExpectedUtility
+            #printStringOntoFile(maxExpectedUtility)
         elif (getQueryType(queries[i]) == constants.EXPECTED_UTILITY):
             k = 0
             lhsDict, k = getLHSorRHSofCondProbability(argsAfterSplit, k, constants.BEFORE)
@@ -316,8 +316,9 @@ for i in range(0,len(queries)):
             X = dict(lhsDict.items() + rhsDict.items())
             expectedUtility = calculateExpectedUtility(X, rhsDict, utilityNode.getDependencyNodes(), utilityNode)
             expectedUtilityStr = "{0:g}".format(round(expectedUtility + 1e-8))
-            #print expectedUtilityStr
-            printStringOntoFile(expectedUtilityStr)
+            print expectedUtilityStr
+            #printStringOntoFile(expectedUtilityStr)
     except:
-        printStringOntoFile("\n")
+        print "\n"
+        #printStringOntoFile("\n")
         continue
